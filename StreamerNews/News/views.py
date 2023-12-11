@@ -20,6 +20,7 @@ class NewsViewSet(ModelViewSet):
         .get_readers_count()
         .get_author_fullname()
         .get_is_like()
+        # TODO: удали лишние строки кода
         # .annotate(
         #     fullname=Concat(
         #         'author__first_name',

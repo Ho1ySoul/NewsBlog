@@ -7,6 +7,7 @@ from News.models import News
 
 
 class NewsSerializer(ModelSerializer):
+    # TODO: избавься от неактуальных строк
     # author = ReadOnlyField(source="get_author")
     # author = ReadOnlyField(source="author.username")
     category = ReadOnlyField(source="category.title")
@@ -20,3 +21,13 @@ class NewsSerializer(ModelSerializer):
         model = News
         fields = ['title', 'content', 'category', 'readers', 'img', 'author',
                   'fullname', 'readers_count', 'like']
+        # TODO: список лучше переносить так:
+        # fields = ['title',
+        #           'content',
+        #           'category',
+        #           'readers',
+        #           'img',
+        #           'author',
+        #           'fullname',
+        #           'readers_count',
+        #           'like']

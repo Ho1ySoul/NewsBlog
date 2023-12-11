@@ -6,6 +6,10 @@ from django.db.models.functions import Concat
 
 class NewsQuerySet(models.QuerySet):
     def get_author_fullname(self):
+        # TODO: Имя метода не информативно, из него ожидаю, что метод
+        #  возвращает стоку с полным именем автора. В этих методах часто
+        #  используют имена with_foo, annotate_foo ...,
+        #  например with_author_full_name
         return self.annotate(
             fullname=Concat(
                 'author__first_name',
@@ -13,10 +17,12 @@ class NewsQuerySet(models.QuerySet):
             ))
 
     def get_readers_count(self):
+        # TODO: аналогично
         return self.annotate(
             readers_count=Count('readers'))
 
     def get_is_like(self):
+        # TODO: и тут
         return self.annotate(
             like=Exists(UserNewsRelation
                         .objects
@@ -56,6 +62,7 @@ class News(models.Model):
     class Meta:
         verbose_name = "News"
         verbose_name_plural = "News"
+        #TODO: сюда стоит добавить сортировку
 
     def __str__(self):
         return self.title
@@ -69,3 +76,5 @@ class UserNewsRelation(models.Model):
 
     def __str__(self):
         return self.news.title
+
+    # TODO: добавь Meta

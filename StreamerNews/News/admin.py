@@ -11,6 +11,7 @@ class NewsAdmin(admin.ModelAdmin):
         obj.author = request.user
         super().save_model(request, obj, form, change)
 
+# TODO: Для чего тут pass?
     pass
 
 
