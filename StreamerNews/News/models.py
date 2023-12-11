@@ -3,6 +3,8 @@ from django.db import models
 from django.db.models import Count, Exists, OuterRef
 from django.db.models.functions import Concat
 
+from StreamerNews.settings import DATETIME_FORMAT
+
 
 class NewsQuerySet(models.QuerySet):
     def get_author_fullname(self):
@@ -41,6 +43,8 @@ class News(models.Model):
                                      related_name='news')
     img = models.ImageField(upload_to='news', null=True, blank=True,
                             verbose_name='Изображение')
+    is_active = models.BooleanField(default=True)
+    date_created = models.DateTimeField(auto_now_add=True)
 
     objects = NewsQuerySet.as_manager()
 
@@ -58,7 +62,7 @@ class News(models.Model):
         verbose_name_plural = "News"
 
     def __str__(self):
-        return self.title
+        return f'{self.author} : {self.title} {self.date_created}'
 
 
 # Create your models here.
@@ -68,4 +72,4 @@ class UserNewsRelation(models.Model):
     like = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.news.title
+        return f'{self.news.title}:{self.user.username}'

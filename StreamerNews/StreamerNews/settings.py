@@ -268,3 +268,9 @@ LOGGING = {
 #     'SEND_ACTIVATION_EMAIL': True,
 #     'SERIALIZERS': {},
 # }
+# USE_L10N = False
+#
+# USE_TZ = False
+
+DATETIME_FORMAT = '%d-%m-%Y-%H-%M'
+DATE_FORMAT = "d/m/Y"

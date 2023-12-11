@@ -4,8 +4,9 @@ from News.models import News, UserNewsRelation, Category
 
 @admin.register(News)
 class NewsAdmin(admin.ModelAdmin):
-    fields = ['title', 'author', 'content', 'category', 'img']
-    readonly_fields = ['author']
+    fields = ['title', 'author', 'content', 'category', 'img', 'date_created',
+              'is_active']
+    readonly_fields = ['author', 'is_active','date_created']
 
     def save_model(self, request, obj, form, change):
         obj.author = request.user
