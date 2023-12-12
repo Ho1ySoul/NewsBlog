@@ -7,7 +7,7 @@ from StreamerNews.settings import DATETIME_FORMAT
 
 
 class NewsQuerySet(models.QuerySet):
-    def get_author_fullname(self):
+    def with_author_full_name(self):
         # TODO: Имя метода не информативно, из него ожидаю, что метод
         #  возвращает стоку с полным именем автора. В этих методах часто
         #  используют имена with_foo, annotate_foo ...,
