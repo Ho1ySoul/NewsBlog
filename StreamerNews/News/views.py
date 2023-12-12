@@ -20,36 +20,22 @@ class NewsViewSet(ModelViewSet):
         .with_readers_count()
         .with_author_full_name()
         .with_is_like()
-        # TODO: удали лишние строки кода
-        # .annotate(
-        #     fullname=Concat(
-        #         'author__first_name',
-        #         'author__last_name'
-        #     ),
-        #     readers_count=Count('readers'),
-        #     like=Exists(UserNewsRelation.objects.filter(news=OuterRef('pk')))
-        #
-        # )
     )
 
     serializer_class = NewsSerializer
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterset_fields = ['category',
-                        'author']  # поиск по одному полю
+                        'author']
     ordering_fields = ['title']
 
     search_fields = [
         'title',
         'content',
         'fullname'
-    ]  # поиск по двум полям сразу
+    ]
 
     def perform_create(self, serializer):
         logger.info("ЭТО ОНО")
         serializer.validated_data['author'] = self.request.user
         serializer.save()
 
-    # permission_classes = [IsAuthenticatedOrReadOnly]
-    #
-    # def get(self, request, format=None):
-    #     return Response()

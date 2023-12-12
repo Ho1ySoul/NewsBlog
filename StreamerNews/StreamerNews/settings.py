@@ -19,11 +19,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = \
-    'django-insecure-z!jwey!&2y215t6m&#l=pqyq$1za!&s@(=k$yo(dh%66skc_fi'
-# TODO: Перенос стоки через \ не рекомендован. Лучше так:
-# SECRET_KEY = (
-#     'django-insecure-z!jwey!&2y215t6m&#l=pqyq$1za!&s@(=k$yo(dh%66skc_fi')
+
+
+SECRET_KEY = (
+    'django-insecure-z!jwey!&2y215t6m&#l=pqyq$1za!&s@(=k$yo(dh%66skc_fi')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -32,6 +31,7 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -39,33 +39,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'rest_framework',
-    'News',
     'djoser',
     'rest_framework.authtoken',
     'drf_spectacular',
     'django_filters',
-    # 'drf_api_logger',
+
+    'News.apps.NewsConfig',
+    #'News',
 ]
-# TODO: В INSTALLED_APPS тоже должен быть порядок. Сначала Django, потом
-#  сторонние библиотеки, потом приложения проекта. Приложения лучше подключать
-#  через .apps.AppConfig
-# INSTALLED_APPS = [
-#     'django.contrib.admin',
-#     'django.contrib.auth',
-#     'django.contrib.contenttypes',
-#     'django.contrib.sessions',
-#     'django.contrib.messages',
-#     'django.contrib.staticfiles',
-#     'rest_framework',
-#
-#     'djoser',
-#     'rest_framework.authtoken',
-#     'drf_spectacular',
-#     'django_filters',
-#
-#     'News.apps.AppConfig',
-# ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

@@ -50,6 +50,11 @@ class News(models.Model):
     def get_readers(self):
         return [reader.username for reader in self.readers.all()]
 
+    @property
+    def get_full_name(self):
+        return f'{self.author.first_name} {self.author.last_name}'
+
+
     class Meta:
         verbose_name = "News"
         verbose_name_plural = "News"
