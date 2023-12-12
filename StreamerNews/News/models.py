@@ -3,28 +3,20 @@ from django.db import models
 from django.db.models import Count, Exists, OuterRef
 from django.db.models.functions import Concat
 
-from StreamerNews.settings import DATETIME_FORMAT
-
 
 class NewsQuerySet(models.QuerySet):
     def with_author_full_name(self):
-        # TODO: Имя метода не информативно, из него ожидаю, что метод
-        #  возвращает стоку с полным именем автора. В этих методах часто
-        #  используют имена with_foo, annotate_foo ...,
-        #  например with_author_full_name
         return self.annotate(
             fullname=Concat(
                 'author__first_name',
                 'author__last_name'
             ))
 
-    def get_readers_count(self):
-        # TODO: аналогично
+    def with_readers_count(self):
         return self.annotate(
             readers_count=Count('readers'))
 
-    def get_is_like(self):
-        # TODO: и тут
+    def with_is_like(self):
         return self.annotate(
             like=Exists(UserNewsRelation
                         .objects
@@ -54,11 +46,6 @@ class News(models.Model):
 
     objects = NewsQuerySet.as_manager()
 
-    # @property
-    # def get_author(self):
-    #     author1 = self.author.first_name + self.author.last_name
-    #     return author1
-
     @property
     def get_readers(self):
         return [reader.username for reader in self.readers.all()]
@@ -66,7 +53,7 @@ class News(models.Model):
     class Meta:
         verbose_name = "News"
         verbose_name_plural = "News"
-        #TODO: сюда стоит добавить сортировку
+        ordering = ('-date_created',)
 
     def __str__(self):
         return f'{self.author} : {self.title} {self.date_created}'
@@ -78,7 +65,9 @@ class UserNewsRelation(models.Model):
     news = models.ForeignKey(News, on_delete=models.CASCADE)
     like = models.BooleanField(default=False)
 
+    class Meta:
+        verbose_name = "User-News Relation"
+        verbose_name_plural = "User-News Relation"
+
     def __str__(self):
         return f'{self.news.title}:{self.user.username}'
-
-    # TODO: добавь Meta

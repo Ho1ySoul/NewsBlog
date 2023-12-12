@@ -17,9 +17,9 @@ class NewsViewSet(ModelViewSet):
         News.objects
         .prefetch_related('readers')
         .select_related("category", "author")
-        .get_readers_count()
+        .with_readers_count()
         .with_author_full_name()
-        .get_is_like()
+        .with_is_like()
         # TODO: удали лишние строки кода
         # .annotate(
         #     fullname=Concat(
