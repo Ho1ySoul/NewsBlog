@@ -26,7 +26,7 @@ class NewsSerializer(ModelSerializer):
     fullname = serializers.CharField(max_length=100, read_only=True)
     readers = ReadOnlyField(source="get_readers")
     readers_count = serializers.IntegerField(read_only=True)
-    like = serializers.BooleanField()
+    like = serializers.BooleanField(default=False)
     date_created = serializers.DateTimeField(format=DATETIME_FORMAT)
 
     author = UserSerializer(read_only=True)

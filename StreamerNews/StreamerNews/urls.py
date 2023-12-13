@@ -19,12 +19,13 @@ from django.urls import path, include, re_path
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 from rest_framework.routers import SimpleRouter
 
-from News.views import NewsViewSet
+from News.views import NewsViewSet, CategoryViewSet
 from StreamerNews.settings import MEDIA_ROOT, MEDIA_URL
 from django.conf.urls.static import static
 
 router = SimpleRouter()
 router.register(r'news', NewsViewSet)
+router.register(r'categorys', CategoryViewSet)
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('auth/', include('djoser.urls')),

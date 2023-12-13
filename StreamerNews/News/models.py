@@ -36,7 +36,7 @@ class News(models.Model):
     content = models.TextField()
     author = models.ForeignKey(User, on_delete=models.CASCADE,
                                related_name='my_post')
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, default=1)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, default=0)
     readers = models.ManyToManyField(User, through='UserNewsRelation',
                                      related_name='news')
     img = models.ImageField(upload_to='news', null=True, blank=True,
