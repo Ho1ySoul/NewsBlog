@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
-from django.db.models import Count, Exists, OuterRef
+from django.db.models import Count, Exists, OuterRef, Subquery
 from django.db.models.functions import Concat
 
 
@@ -16,11 +16,12 @@ class NewsQuerySet(models.QuerySet):
         return self.annotate(
             readers_count=Count('readers'))
 
-    def with_is_like(self):
+    def with_is_like(self, user):
         return self.annotate(
-            like=Exists(UserNewsRelation
-                        .objects
-                        .filter(news=OuterRef('pk')))
+            like=(
+                Exists(UserNewsRelation.objects.filter(user=user, news=OuterRef("pk")))
+            )
+
         )
 
 
@@ -53,7 +54,6 @@ class News(models.Model):
     @property
     def get_full_name(self):
         return f'{self.author.first_name} {self.author.last_name}'
-
 
     class Meta:
         verbose_name = "News"

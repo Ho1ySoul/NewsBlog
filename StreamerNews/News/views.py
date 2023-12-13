@@ -1,27 +1,21 @@
+from django.contrib.sites import requests
 from django_filters.rest_framework import DjangoFilterBackend
+from requests import Response
+from rest_framework import status
 
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.viewsets import ModelViewSet
 
 from News.models import News, Category
-from News.serializers import NewsSerializer, CategorySerializer
+from News.serializers import NewsSerializer, CategorySerializer, CategoryPostSerializer, NewsPostSerializer
 
 import logging
-
 
 logger = logging.getLogger('main')
 
 
 class NewsViewSet(ModelViewSet):
-    queryset = (
-        News.objects
-        .prefetch_related('readers')
-        .select_related("category", "author")
-        .with_readers_count()
-        .with_author_full_name()
-        .with_is_like()
-    )
-
+    queryset = News.objects.all()
     serializer_class = NewsSerializer
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterset_fields = ['category',
@@ -34,11 +28,44 @@ class NewsViewSet(ModelViewSet):
         'fullname'
     ]
 
+
+    def get_queryset(self):
+        return (self.queryset
+                .prefetch_related('readers')
+                .select_related("category", "author")
+                .with_readers_count()
+                .with_author_full_name()
+                .with_is_like(self.request.user)
+
+                )
+    def get_serializer_class(self):
+        if self.action == "create":
+            return NewsPostSerializer
+        else:
+            return NewsSerializer
+
+    # def create(self, request, *args, **kwargs):
+    #     serializer = self.get_serializer(data=request.data)
+    #     serializer.is_valid(raise_exception=True)
+    #     self.perform_create(serializer)
+    #     headers = self.get_success_headers(serializer.data)
+    #     return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
     def perform_create(self, serializer):
         logger.info("ЭТО ОНО")
         serializer.validated_data['author'] = self.request.user
         serializer.save()
 
+
+
 class CategoryViewSet(ModelViewSet):
-    serializer_class = CategorySerializer
     queryset = Category.objects.all()
+
+    def get_serializer_class(self):
+        if self.action == "create":
+            return CategoryPostSerializer
+        else:
+            return CategorySerializer
+
+
+
