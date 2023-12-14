@@ -22,13 +22,13 @@ from rest_framework.routers import SimpleRouter
 from News.views import NewsViewSet, CategoryViewSet
 from StreamerNews.settings import MEDIA_ROOT, MEDIA_URL
 from django.conf.urls.static import static
-
+app_name = "News"
 router = SimpleRouter()
-router.register(r'news', NewsViewSet)
-router.register(r'categorys', CategoryViewSet)
+router.register(r'news', NewsViewSet, basename='news')
+router.register(r'categories', CategoryViewSet, basename='categories')
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('auth/', include('djoser.urls')),
+    path('auth/', include('djoser.urls'), name='auth'),
     re_path(r'^auth/', include('djoser.urls.authtoken')),
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
     path('api/docs/', SpectacularSwaggerView.as_view(url_name='schema'),

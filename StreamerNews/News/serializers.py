@@ -34,7 +34,7 @@ class NewsSerializer(ModelSerializer):
     readers = ReadOnlyField(source="get_readers")
     readers_count = serializers.IntegerField(read_only=True)
     like = serializers.BooleanField(read_only=True)
-    date_created = serializers.DateTimeField(format=DATETIME_FORMAT)
+    date_created = serializers.DateTimeField(format=DATETIME_FORMAT, read_only=True)
 
     author = UserSerializer(read_only=True)
 
@@ -59,10 +59,9 @@ class NewsSerializer(ModelSerializer):
 class NewsPostSerializer(NewsSerializer):
     category = serializers.PrimaryKeyRelatedField(queryset=Category.objects.all())
 
-
     def create(self, validated_data):
-        return News.objects.create( **validated_data)
-                # def create(self, validated_data):
+        return News.objects.create(**validated_data)
+        # def create(self, validated_data):
         #     print(validated_data)
         #     category_id = validated_data.pop('category')
         #

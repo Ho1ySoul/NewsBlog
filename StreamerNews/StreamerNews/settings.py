@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'drf_spectacular',
     'django_filters',
+    # 'django_nose',
 
     'News.apps.NewsConfig',
     #'News',
@@ -279,3 +280,11 @@ MEDIA_URL = '/media/'
 
 DATETIME_FORMAT = '%d-%m-%Y-%H-%M'
 DATE_FORMAT = "d/m/Y"
+
+# TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+#
+# # Tell nose to measure coverage on the 'foo' and 'bar' apps
+# NOSE_ARGS = [
+#     '--with-coverage',
+#     '--cover-package=foo,bar',
+# ]
