@@ -30,7 +30,6 @@ class CategoryPostSerializer(ModelSerializer):
 
 
 class NewsSerializer(ModelSerializer):
-    fullname = serializers.CharField(max_length=100, read_only=True)
     readers = ReadOnlyField(source="get_readers")
     readers_count = serializers.IntegerField(read_only=True)
     like = serializers.BooleanField(read_only=True)
@@ -38,23 +37,24 @@ class NewsSerializer(ModelSerializer):
                                              read_only=True)
 
     author = UserSerializer(read_only=True)
-
+    fullname = ReadOnlyField(source='author.fullname')
     category = CategorySerializer()
 
     class Meta:
         model = News
-        fields = ['title',
-                  'content',
-                  'category',
-                  'readers',
-                  'img',
-                  'author',
-                  'readers_count',
-                  'fullname',
-                  'is_active',
-                  'date_created',
-                  'like',
-                  ]
+        fields = [
+            'title',
+            'content',
+            'category',
+            'readers',
+            'img',
+            'author',
+            'fullname',
+            'readers_count',
+            'is_active',
+            'date_created',
+            'like',
+        ]
 
 
 class NewsPostSerializer(NewsSerializer):
@@ -64,10 +64,3 @@ class NewsPostSerializer(NewsSerializer):
 
     def create(self, validated_data):
         return News.objects.create(**validated_data)
-        # def create(self, validated_data):
-        #     print(validated_data)
-        #     category_id = validated_data.pop('category')
-        #
-        #     category = Category.objects.get(pk=category_id['title'])
-        #
-        #     return news.objects.create(category=category, **validated_data)

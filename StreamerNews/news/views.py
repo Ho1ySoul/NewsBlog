@@ -31,28 +31,26 @@ class NewsViewSet(ModelViewSet):
 
     def get_queryset(self):
         if self.request.user.is_authenticated:
-            return (self.queryset
-                    .prefetch_related('readers')
-                    .select_related("category", "author")
-                    .with_readers_count()
-                    .with_author_full_name()
-                    .with_is_like(self.request.user)
+            return (
+                self.queryset
+                .prefetch_related('readers')
+                .select_related("category", "author")
+                .with_readers_count()
+                .with_is_like(self.request.user)
+            )
 
-                    )
-        else:
-            return (self.queryset
-                    .prefetch_related('readers')
-                    .select_related("category", "author")
-                    .with_readers_count()
-                    .with_author_full_name()
-
-                    )
+        return (
+            self.queryset
+            .prefetch_related('readers')
+            .select_related("category", "author")
+            .with_readers_count()
+        )
 
     def get_serializer_class(self):
         if self.action in ("create", "update"):
             return NewsPostSerializer
-        else:
-            return NewsSerializer
+
+        return NewsSerializer
 
     def perform_create(self, serializer):
         self.logger.info("ЭТО ОНО")
@@ -67,5 +65,5 @@ class CategoryViewSet(ModelViewSet):
     def get_serializer_class(self):
         if self.action in ("create", "update"):
             return CategoryPostSerializer
-        else:
-            return CategorySerializer
+
+        return CategorySerializer

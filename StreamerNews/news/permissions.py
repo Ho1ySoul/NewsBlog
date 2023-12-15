@@ -6,12 +6,8 @@ class IsStaffOrReadOnly(permissions.BasePermission):
     def has_permission(self, request, view):
         if request.method in SAFE_METHODS:
             return True
-        else:
-            return (
-                    request.user
-                    and request.user.is_authenticated
-                    and request.user.is_staff
-            )
+
+        return request.user.is_staff
 
 
 class IsOwnerOrReadOnly(permissions.BasePermission):
