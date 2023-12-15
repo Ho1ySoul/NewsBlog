@@ -6,7 +6,7 @@ from rest_framework.serializers import ModelSerializer
 
 from streamer_news.settings import DATETIME_FORMAT
 
-from .models import Category,News
+from .models import Category, News
 
 
 class UserSerializer(ModelSerializer):
