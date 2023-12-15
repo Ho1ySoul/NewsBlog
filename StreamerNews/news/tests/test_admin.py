@@ -19,9 +19,9 @@ class AdminTestCase(TestCase):
         cls.user1.save()
 
     def test_post_news_for_admin_panel(self):
-        category1 = Category.objects.create(pk=1, title="c1")
-        self.admin.save_model(obj=News(title="mydamintitle",
-                                       content="my admin content",
+        category1 = Category.objects.create(pk=1, title='c1')
+        self.admin.save_model(obj=News(title='mydamintitle',
+                                       content='my admin content',
                                        category=category1),
                               request=Mock(user=self.user1),
                               form=None, change=None)
