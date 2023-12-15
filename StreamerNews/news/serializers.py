@@ -1,12 +1,12 @@
-import requests
 from django.contrib.auth.models import User
+
 from rest_framework import serializers
 from rest_framework.fields import ReadOnlyField
-
 from rest_framework.serializers import ModelSerializer
 
-from News.models import News, Category
-from StreamerNews.settings import DATETIME_FORMAT
+from streamer_news.settings import DATETIME_FORMAT
+
+from .models import Category,News
 
 
 class UserSerializer(ModelSerializer):
@@ -34,7 +34,8 @@ class NewsSerializer(ModelSerializer):
     readers = ReadOnlyField(source="get_readers")
     readers_count = serializers.IntegerField(read_only=True)
     like = serializers.BooleanField(read_only=True)
-    date_created = serializers.DateTimeField(format=DATETIME_FORMAT, read_only=True)
+    date_created = serializers.DateTimeField(format=DATETIME_FORMAT,
+                                             read_only=True)
 
     author = UserSerializer(read_only=True)
 
@@ -57,7 +58,9 @@ class NewsSerializer(ModelSerializer):
 
 
 class NewsPostSerializer(NewsSerializer):
-    category = serializers.PrimaryKeyRelatedField(queryset=Category.objects.all())
+    category = serializers.PrimaryKeyRelatedField(
+        queryset=Category.objects.all()
+    )
 
     def create(self, validated_data):
         return News.objects.create(**validated_data)
@@ -67,4 +70,4 @@ class NewsPostSerializer(NewsSerializer):
         #
         #     category = Category.objects.get(pk=category_id['title'])
         #
-        #     return News.objects.create(category=category, **validated_data)
+        #     return news.objects.create(category=category, **validated_data)

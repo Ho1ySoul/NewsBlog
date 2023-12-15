@@ -5,16 +5,16 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('News', '0008_alter_news_options_news_img'),
+        ('news', '0008_alter_news_options_news_img'),
     ]
 
     operations = [
         migrations.AddField(
             model_name='news',
             name='date_created',
-            field=models.DateTimeField(auto_now_add=True, default=django.utils.timezone.now),
+            field=models.DateTimeField(auto_now_add=True,
+                                       default=django.utils.timezone.now),
             preserve_default=False,
         ),
         migrations.AddField(

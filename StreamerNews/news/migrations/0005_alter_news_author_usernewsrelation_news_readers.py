@@ -7,7 +7,7 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
     dependencies = [
-        ('News', '0004_alter_news_category'),
+        ('news', '0004_alter_news_category'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
@@ -28,7 +28,7 @@ class Migration(migrations.Migration):
                 ('like', models.BooleanField(default=False)),
                 ('news',
                  models.ForeignKey(on_delete=django.db.models.deletion.CASCADE,
-                                   to='News.news')),
+                                   to='news.news')),
                 ('user',
                  models.ForeignKey(on_delete=django.db.models.deletion.CASCADE,
                                    to=settings.AUTH_USER_MODEL)),
@@ -38,7 +38,7 @@ class Migration(migrations.Migration):
             model_name='news',
             name='readers',
             field=models.ManyToManyField(related_name='news',
-                                         through='News.UserNewsRelation',
+                                         through='news.UserNewsRelation',
                                          to=settings.AUTH_USER_MODEL),
         ),
     ]

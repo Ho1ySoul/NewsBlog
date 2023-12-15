@@ -1,5 +1,5 @@
 """
-URL configuration for StreamerNews project.
+URL configuration for streamer_news project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/5.0/topics/http/urls/
@@ -14,15 +14,16 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path, include, re_path
+from django.urls import include, path, re_path
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 from rest_framework.routers import SimpleRouter
 
-from News.views import NewsViewSet, CategoryViewSet
-from StreamerNews.settings import MEDIA_ROOT, MEDIA_URL
-from django.conf.urls.static import static
-app_name = "News"
+from news.views import CategoryViewSet, NewsViewSet
+from streamer_news.settings import MEDIA_ROOT, MEDIA_URL
+
+app_name = "news"
 router = SimpleRouter()
 router.register(r'news', NewsViewSet, basename='news')
 router.register(r'categories', CategoryViewSet, basename='categories')

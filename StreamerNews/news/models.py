@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
-from django.db.models import Count, Exists, OuterRef, Subquery
+from django.db.models import Count, Exists, OuterRef
 from django.db.models.functions import Concat
 
 
@@ -19,7 +19,8 @@ class NewsQuerySet(models.QuerySet):
     def with_is_like(self, user):
         return self.annotate(
             like=(
-                Exists(UserNewsRelation.objects.filter(user=user, news=OuterRef("pk")))
+                Exists(UserNewsRelation.objects.filter(user=user,
+                                                       news=OuterRef("pk")))
             )
 
         )
@@ -56,8 +57,8 @@ class News(models.Model):
         return f'{self.author.first_name} {self.author.last_name}'
 
     class Meta:
-        verbose_name = "News"
-        verbose_name_plural = "News"
+        verbose_name = "news"
+        verbose_name_plural = "news"
         ordering = ('-date_created',)
 
     def __str__(self):
@@ -71,8 +72,8 @@ class UserNewsRelation(models.Model):
     like = models.BooleanField(default=False)
 
     class Meta:
-        verbose_name = "User-News Relation"
-        verbose_name_plural = "User-News Relation"
+        verbose_name = "User-news Relation"
+        verbose_name_plural = "User-news Relation"
 
     def __str__(self):
         return f'{self.news.title}:{self.user.username}'

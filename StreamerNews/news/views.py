@@ -1,25 +1,18 @@
-from django.contrib.sites import requests
-from django_filters.rest_framework import DjangoFilterBackend
-from requests import Response
-from rest_framework import status
-
-from rest_framework.filters import SearchFilter, OrderingFilter
-from rest_framework.permissions import IsAdminUser
-from rest_framework.viewsets import ModelViewSet
-
-from News.models import News, Category
-from News.permissions import IsStaffOrReadOnly, IsOwnerOrReadOnly
-from News.serializers import NewsSerializer, CategorySerializer, CategoryPostSerializer, NewsPostSerializer
-
 import logging
 
-logger = logging.getLogger('main')
+from django_filters.rest_framework import DjangoFilterBackend
 
+from rest_framework.filters import OrderingFilter, SearchFilter
+from rest_framework.viewsets import ModelViewSet
 
-
+from .models import Category, News
+from .permissions import IsOwnerOrReadOnly, IsStaffOrReadOnly
+from .serializers import (CategoryPostSerializer, CategorySerializer,
+                          NewsPostSerializer, NewsSerializer)
 
 
 class NewsViewSet(ModelViewSet):
+    logger = logging.getLogger('main')
     queryset = News.objects.all()
     serializer_class = NewsSerializer
 
@@ -61,15 +54,8 @@ class NewsViewSet(ModelViewSet):
         else:
             return NewsSerializer
 
-    # def create(self, request, *args, **kwargs):
-    #     serializer = self.get_serializer(data=request.data)
-    #     serializer.is_valid(raise_exception=True)
-    #     self.perform_create(serializer)
-    #     headers = self.get_success_headers(serializer.data)
-    #     return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
-
     def perform_create(self, serializer):
-        logger.info("ЭТО ОНО")
+        self.logger.info("ЭТО ОНО")
         serializer.validated_data['author'] = self.request.user
         serializer.save()
 
@@ -77,6 +63,7 @@ class NewsViewSet(ModelViewSet):
 class CategoryViewSet(ModelViewSet):
     queryset = Category.objects.all()
     permission_classes = [IsStaffOrReadOnly]
+
     def get_serializer_class(self):
         if self.action in ("create", "update"):
             return CategoryPostSerializer

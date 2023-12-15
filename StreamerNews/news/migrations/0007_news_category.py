@@ -6,7 +6,7 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
     dependencies = [
-        ('News', '0006_category_remove_news_category'),
+        ('news', '0006_category_remove_news_category'),
     ]
 
     operations = [
@@ -19,6 +19,6 @@ class Migration(migrations.Migration):
                                     .models
                                     .deletion
                                     .CASCADE,
-                                    to='News.category'),
+                                    to='news.category'),
         ),
     ]

@@ -1,5 +1,6 @@
 from django.contrib import admin
-from News.models import News, UserNewsRelation, Category
+
+from news.models import Category, News, UserNewsRelation
 
 
 @admin.register(News)

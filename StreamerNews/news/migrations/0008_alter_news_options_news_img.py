@@ -5,13 +5,13 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
     dependencies = [
-        ('News', '0007_news_category'),
+        ('news', '0007_news_category'),
     ]
 
     operations = [
         migrations.AlterModelOptions(
             name='news',
-            options={'verbose_name': 'News', 'verbose_name_plural': 'News'},
+            options={'verbose_name': 'news', 'verbose_name_plural': 'news'},
         ),
         migrations.AddField(
             model_name='news',
